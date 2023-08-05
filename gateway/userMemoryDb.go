@@ -4,7 +4,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/mb-cdev/authenticationService/entity"
+	"github.com/mb-cdev/p1-auth-service/entity"
 )
 
 type UserMemoryDb struct {

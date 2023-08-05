@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/mb-cdev/authenticationService/entity"
+import "github.com/mb-cdev/p1-auth-service/entity"
 
 type UserRepository interface {
 	IsNameUsed(name string) bool
