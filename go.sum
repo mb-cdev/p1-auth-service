@@ -2,3 +2,5 @@ github.com/go-chi/chi/v5 v5.0.10 h1:rLz5avzKpjqxrYwXNfmjkrYYXOyLJd37pz53UFHC6vk=
 github.com/go-chi/chi/v5 v5.0.10/go.mod h1:DslCQbL2OYiznFReuXYUmQ2hGd1aDpCnlMNITLSKoi8=
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/mb-cdev/jwt v0.1.2 h1:59lqa9FdubtSs8JQ2sJpgW/qlKYYB7tUk1V+6bpc2pY=
+github.com/mb-cdev/jwt v0.1.2/go.mod h1:BbgmkbVHNou9uuX39lmTxgy7zlDTxmh7+E7XZnKI/dA=

@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"bytes"
 	"crypto/sha512"
 	"time"
 
@@ -27,6 +28,10 @@ func NewUser(name string, password string) *User {
 
 func (u *User) SetPassword(password string) {
 	u.Password = hashUserPassword(password)
+}
+
+func (u *User) IsPasswordValid(password string) bool {
+	return bytes.Equal(u.Password, hashUserPassword(password))
 }
 
 func hashUserPassword(password string) []byte {

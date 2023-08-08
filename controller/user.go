@@ -26,3 +26,12 @@ func (u *User) RegisterAction(data RequestDataInterface) *outputdata.CreateUserO
 
 	return out
 }
+
+func (u *User) LoginAction(data RequestDataInterface) *outputdata.LoginUserOutputData {
+	out := u.usecase.LoginUser(&inputdata.LoginUserInputData{
+		Name:     data.Get("name"),
+		Password: data.Get("password"),
+	})
+
+	return out
+}
