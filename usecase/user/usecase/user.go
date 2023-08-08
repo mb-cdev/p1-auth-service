@@ -1,13 +1,19 @@
 package usecase
 
 import (
+	"errors"
+	"net/http"
+
 	"github.com/mb-cdev/p1-auth-service/entity"
 	"github.com/mb-cdev/p1-auth-service/usecase/user/inputdata"
+	"github.com/mb-cdev/p1-auth-service/usecase/user/outputdata"
 	"github.com/mb-cdev/p1-auth-service/usecase/user/repository"
 )
 
+var errNameInUse = errors.New("NAME_IN_USE")
+
 type UserInterface interface {
-	CreateUser(*inputdata.CreateUserInputData)
+	CreateUser(*inputdata.CreateUserInputData) *outputdata.CreateUserOutputData
 	LoginUser()
 }
 
@@ -21,13 +27,28 @@ func NewUser(db repository.UserRepository) UserInterface {
 	}
 }
 
-func (u *User) CreateUser(input *inputdata.CreateUserInputData) {
+func (u *User) CreateUser(input *inputdata.CreateUserInputData) *outputdata.CreateUserOutputData {
 	if u.db.IsNameUsed(input.Name) {
-		return
+		return &outputdata.CreateUserOutputData{
+			Err:            errNameInUse,
+			IsSuccess:      false,
+			HttpStatusCode: http.StatusBadRequest,
+		}
 	}
 
 	usr := entity.NewUser(input.Name, input.Password)
-	u.db.Save(usr)
+	saved := u.db.Save(usr)
+
+	httpStatusCode := http.StatusCreated
+	if !saved {
+		httpStatusCode = http.StatusBadRequest
+	}
+
+	return &outputdata.CreateUserOutputData{
+		IsSuccess:      saved,
+		HttpStatusCode: httpStatusCode,
+		CreatedId:      usr.ID,
+	}
 }
 
 func (u *User) LoginUser() {

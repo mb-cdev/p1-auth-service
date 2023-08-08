@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -9,27 +8,13 @@ import (
 	"syscall"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/mb-cdev/p1-auth-service/controller"
-	"github.com/mb-cdev/p1-auth-service/gateway"
-	"github.com/mb-cdev/p1-auth-service/usecase/user/usecase"
+	"github.com/mb-cdev/p1-auth-service/infrastructure"
+	"github.com/mb-cdev/p1-auth-service/registry"
 )
 
 func main() {
-	db := gateway.NewUserMemoryDb()
-	userUsecase := usecase.NewUser(db)
-	_ = controller.NewUser(userUsecase)
-
-	r := chi.NewMux()
-	r.Post("/register", func(w http.ResponseWriter, r *http.Request) {
-		r.ParseForm()
-		w.Write(
-			[]byte(
-				fmt.Sprintln(
-					r.PostFormValue("name"),
-					r.PostFormValue("password")),
-			),
-		)
-	})
+	registry.ControllerRegistry.Init()
+	r := infrastructure.GetRoutes()
 
 	go func(mx *chi.Mux) {
 		err := http.ListenAndServe("0.0.0.0:8080", mx)
