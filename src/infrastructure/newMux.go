@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -14,6 +15,7 @@ func GetRoutes() *chi.Mux {
 	r := chi.NewMux()
 
 	r.Post("/register", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("InstanceId", fmt.Sprint(settings.InstanceId))
 		r.ParseForm()
 
 		out := registry.ControllerRegistry.User.RegisterAction(r.Form)
@@ -28,6 +30,7 @@ func GetRoutes() *chi.Mux {
 	})
 
 	r.Post("/login", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("InstanceId", fmt.Sprint(settings.InstanceId))
 		r.ParseForm()
 
 		out := registry.ControllerRegistry.User.LoginAction(r.Form)
@@ -36,12 +39,14 @@ func GetRoutes() *chi.Mux {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		w.Header().Add("InstanceId", fmt.Sprint(settings.InstanceId))
 
 		w.WriteHeader(out.HttpStatusCode)
 		w.Write(outJson)
 	})
 
 	r.Post("/validate-jwt", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("InstanceId", fmt.Sprint(settings.InstanceId))
 		r.ParseForm()
 
 		token := r.Form.Get("token")

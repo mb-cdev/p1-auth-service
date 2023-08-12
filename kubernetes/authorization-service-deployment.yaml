@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "authorization-service"
+  labels:
+    app: authorization-service
+    group: auth
+    type: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: authorization-service
+      group: auth
+      type: backend
+  template:
+    metadata:
+      labels:
+        app: authorization-service
+        group: auth
+        type: backend
+    spec:
+      containers:
+        - image: localhost:5001/auth-service:v0.0.2
+          name: authorization-service
+          ports:
+            - containerPort: 8080
+              hostPort: 8081

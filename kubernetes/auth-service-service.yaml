@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service-service
+  labels:
+    app: auth-service-service
+    group: auth
+    type: backend
+spec:
+  selector:
+    group: auth
+    type: backend
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: authentication-service-port
+  - port: 8081
+    targetPort: 8080
+    name: authorization-service-port
+  type: NodePort

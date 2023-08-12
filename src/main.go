@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,9 +11,12 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/mb-cdev/p1-auth-service/infrastructure"
 	"github.com/mb-cdev/p1-auth-service/registry"
+	"github.com/mb-cdev/p1-auth-service/settings"
 )
 
 func main() {
+	settings.InstanceId = rand.Int()
+
 	registry.ControllerRegistry.Init()
 	r := infrastructure.GetRoutes()
 
